@@ -2,12 +2,12 @@ import React, {Component} from 'react';
 
 class Message extends Component {
   render() {
-    // console.log("Rendering <Message/>");
+    console.log("Rendering <Message/>");
     return (
-      <footer className="chatbar">
-        <input className="chatbar-username" placeholder="Your Name (Optional)" />
-        <input className="chatbar-message" placeholder="Type a message and hit ENTER" />
-      </footer>
+      <div className="message">
+        <span className="message-username">{ this.props.username }</span>
+        <span className="message-content">{ this.props.content }</span>
+      </div>
     );
   }
 }
