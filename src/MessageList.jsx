@@ -7,7 +7,6 @@ class MessageList extends Component {
       return (<Message username={ msg.username } content={ msg.content } key={ i } />)
     })
 
-    console.log("Rendering <MessageList/>");
     return (
       <div>
         <nav className="navbar">
