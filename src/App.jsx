@@ -7,11 +7,12 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentUser: {},
+      currentUser: {name: "Bob"},
       messages: []
     }
     this.socket = null;
     this.sendHandler = this.sendHandler.bind(this);
+    this.sendNameHandler = this.sendNameHandler.bind(this);
   }
 
   componentDidMount() {
@@ -27,14 +28,28 @@ class App extends Component {
       console.log("Server said: ", event.data);
       const message = JSON.parse(event.data);
       console.log('message ', message)
-      const messages = this.state.messages.concat(message);
-      this.setState({messages: messages})
-      console.log('array', this.state.messages)
+
+      switch(message.type) {
+        case "incomingMessage":
+          const messages = this.state.messages.concat(message);
+          this.setState({messages: messages})
+          break;
+        // case "incomingNotification":
+        //   // handle incoming notification function
+        //   break;
+        default:
+          // show an error in the console if the message type is unknown
+          throw new Error("Unknown event type " + message.type);
+      }
     }
   }
 
   sendHandler(text, user) {
-    this.socket.send(JSON.stringify({content: text, username: user}))
+    this.socket.send(JSON.stringify({content: text, username: user, type: "postMessage"}))
+  }
+
+  sendNameHandler(oldname, newname) {
+    this.socket.send(JSON.stringify({oldname: oldname, newname: newname, type: "postNotification"}))
   }
 
   render() {
