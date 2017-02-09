@@ -7,7 +7,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentUser: {name: "Bob"},
+      currentUser: {},
       messages: []
     }
     this.socket = null;
@@ -35,16 +35,13 @@ class App extends Component {
 
   sendHandler(text, user) {
     this.socket.send(JSON.stringify({content: text, username: user}))
-    // const newMessage = {id: 4, username: user, content: text};
-    // const messages = this.state.messages.concat(newMessage)
-    // this.setState({messages: messages})
   }
 
   render() {
     return (
       <div>
-        <MessageList messageList={this.state.messages} />
-        <ChatBar currentUser={this.state.currentUser} sendHandler={this.sendHandler} />
+        <MessageList messageList = { this.state.messages } />
+        <ChatBar currentUser = { this.state.currentUser } sendHandler = { this.sendHandler } />
       </div>
     );
   }
