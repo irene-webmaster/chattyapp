@@ -27,18 +27,14 @@ class App extends Component {
       console.log("Server said: ", event.data);
       const message = JSON.parse(event.data);
       console.log('message ', message)
-    }
-
-    setTimeout(() => {
-      console.log("Simulating incoming message");
-      const newMessage = {id: 3, username: "Michelle", content: "Hello there!"};
-      const messages = this.state.messages.concat(newMessage)
+      const messages = this.state.messages.concat(message);
       this.setState({messages: messages})
-    }, 2000);
+      console.log('array', this.state.messages)
+    }
   }
 
   sendHandler(text, user) {
-    this.socket.send(JSON.stringify({message: text, user: user}))
+    this.socket.send(JSON.stringify({content: text, username: user}))
     // const newMessage = {id: 4, username: user, content: text};
     // const messages = this.state.messages.concat(newMessage)
     // this.setState({messages: messages})
