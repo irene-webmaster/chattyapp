@@ -3,9 +3,6 @@ import Message from './Message.jsx';
 
 class MessageList extends Component {
   render() {
-    const msgComponents = this.props.messageList.map((msg, i) => {
-      return (<Message username={ msg.username } content={ msg.content } key={ msg.id } />)
-    })
 
     return (
       <div>
@@ -13,7 +10,7 @@ class MessageList extends Component {
           <a href="/" className="navbar-brand">Chatty</a>
         </nav>
         <main className="messages">
-          { msgComponents }
+          <Message />
         </main>
       </div>
     );

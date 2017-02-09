@@ -10,6 +10,7 @@ class App extends Component {
       currentUser: {name: "Bob"},
       messages: []
     }
+    console.log('up state', this.state.messages)
     this.socket = null;
     this.sendHandler = this.sendHandler.bind(this);
     this.sendNameHandler = this.sendNameHandler.bind(this);
@@ -27,20 +28,23 @@ class App extends Component {
     socket.onmessage = (event) => {
       console.log("Server said: ", event.data);
       const message = JSON.parse(event.data);
-      console.log('message ', message)
+      const messages = this.state.messages.concat(message);
+      this.setState({messages: messages})
 
-      switch(message.type) {
-        case "incomingMessage":
-          const messages = this.state.messages.concat(message);
-          this.setState({messages: messages})
-          break;
-        // case "incomingNotification":
-        //   // handle incoming notification function
-        //   break;
-        default:
-          // show an error in the console if the message type is unknown
-          throw new Error("Unknown event type " + message.type);
-      }
+      // switch(message.type) {
+      //   case "incomingMessage":
+      //     const messages = this.state.messages.concat(message);
+      //     this.setState({messages: messages})
+      //     break;
+      //   case "incomingNotification":
+      //     const systemMessage = this.state.systemMessage.concat(message);
+      //     this.setState({systemMessage: systemMessage})
+      //     break;
+      //   default:
+      //     // show an error in the console if the message type is unknown
+      //     throw new Error("Unknown event type " + message.type);
+      // }
+      console.log('Array Message ', messages)
     }
   }
 
@@ -56,7 +60,7 @@ class App extends Component {
     return (
       <div>
         <MessageList messageList = { this.state.messages } />
-        <ChatBar currentUser = { this.state.currentUser } sendHandler = { this.sendHandler } />
+        <ChatBar currentUser = { this.state.currentUser } sendHandler = { this.sendHandler } sendNameHandler = { this.sendNameHandler }  />
       </div>
     );
   }
