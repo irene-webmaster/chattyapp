@@ -55,7 +55,7 @@ class ChatBar extends Component {
           className = "chatbar-message"
           placeholder = "Type a message and hit ENTER"
           onChange = {this.handleMesChange}
-          onKeyPress = {this.handleMesKeyPress }
+          onKeyPress = {this.handleMesKeyPress}
         />
       </footer>
     );
