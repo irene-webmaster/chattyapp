@@ -8,7 +8,8 @@ class App extends Component {
     super(props);
     this.state = {
       currentUser: {name: "Bob"},
-      messages: []
+      messages: [],
+      counter: 0
     }
     console.log('up state', this.state.messages)
     this.socket = null;
@@ -27,24 +28,16 @@ class App extends Component {
 
     socket.onmessage = (event) => {
       console.log("Server said: ", event.data);
-      const message = JSON.parse(event.data);
-      const messages = this.state.messages.concat(message);
-      this.setState({messages: messages})
-
-      // switch(message.type) {
-      //   case "incomingMessage":
-      //     const messages = this.state.messages.concat(message);
-      //     this.setState({messages: messages})
-      //     break;
-      //   case "incomingNotification":
-      //     const systemMessage = this.state.systemMessage.concat(message);
-      //     this.setState({systemMessage: systemMessage})
-      //     break;
-      //   default:
-      //     // show an error in the console if the message type is unknown
-      //     throw new Error("Unknown event type " + message.type);
-      // }
-      console.log('Array Message ', messages)
+      const serverData = JSON.parse(event.data);
+      console.log('serverData: ', serverData)
+      if (serverData.connections) {
+        this.setState({counter: serverData.connections})
+        console.log('connections', serverData.connections)
+      } else {
+        const messages = this.state.messages.concat(serverData);
+        this.setState({messages: messages})
+        console.log('Array Message ', messages)
+      }
     }
   }
 
@@ -59,7 +52,7 @@ class App extends Component {
   render() {
     return (
       <div>
-        <MessageList messageList = { this.state.messages } />
+        <MessageList messageList = { this.state.messages } counter = { this.state.counter } />
         <ChatBar currentUser = { this.state.currentUser } sendHandler = { this.sendHandler } sendNameHandler = { this.sendNameHandler }  />
       </div>
     );

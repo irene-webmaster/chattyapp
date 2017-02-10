@@ -17,8 +17,6 @@ class Message extends Component {
         </div>
       )
     }
-    // return (<Message username={ msg.username } content={ msg.content } key={ msg.id } />)
-    // return (<Message msg={msg} />)
   }
 }
 

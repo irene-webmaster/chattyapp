@@ -6,12 +6,12 @@ class MessageList extends Component {
     const msgComponents = this.props.messageList.map((msg, i) => {
       return (
         <Message
-          username={msg.username}
-          content={msg.content}
-          oldname={msg.oldname}
-          newname={msg.newname}
-          type={msg.type}
-          key={ i }
+          username = {msg.username}
+          content = {msg.content}
+          oldname = {msg.oldname}
+          newname = {msg.newname}
+          type = {msg.type}
+          key = { i }
         />
       )
     })
@@ -19,6 +19,7 @@ class MessageList extends Component {
       <div>
         <nav className="navbar">
           <a href="/" className="navbar-brand">Chatty</a>
+          <span>{this.props.counter} user(s) online</span>
         </nav>
         <main className="messages">
           { msgComponents }
