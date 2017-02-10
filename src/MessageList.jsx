@@ -3,6 +3,7 @@ import Message from './Message.jsx';
 
 class MessageList extends Component {
   render() {
+    // console.log('array of all ', this.props.color)
     const msgComponents = this.props.messageList.map((msg, i) => {
       return (
         <Message
@@ -11,7 +12,8 @@ class MessageList extends Component {
           oldname = {msg.oldname}
           newname = {msg.newname}
           type = {msg.type}
-          key = { i }
+          color = {this.props.color}
+          key = {i}
         />
       )
     })

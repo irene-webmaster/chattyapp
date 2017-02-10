@@ -9,9 +9,9 @@ class App extends Component {
     this.state = {
       currentUser: {name: "Bob"},
       messages: [],
-      counter: 0
+      counter: 0,
+      color: ''
     }
-    console.log('up state', this.state.messages)
     this.socket = null;
     this.sendHandler = this.sendHandler.bind(this);
     this.sendNameHandler = this.sendNameHandler.bind(this);
@@ -27,16 +27,27 @@ class App extends Component {
     }
 
     socket.onmessage = (event) => {
-      console.log("Server said: ", event.data);
+      // console.log("Server said: ", event.data);
       const serverData = JSON.parse(event.data);
-      console.log('serverData: ', serverData)
-      if (serverData.connections) {
-        this.setState({counter: serverData.connections})
-        console.log('connections', serverData.connections)
-      } else {
-        const messages = this.state.messages.concat(serverData);
-        this.setState({messages: messages})
-        console.log('Array Message ', messages)
+      // console.log('serverData: ', serverData)
+
+      switch(serverData.type) {
+        case "incomingMessage":
+          const messages = this.state.messages.concat(serverData);
+          this.setState({messages: messages})
+          break;
+        case "incomingNotification":
+          const notificationMessages = this.state.messages.concat(serverData);
+          this.setState({messages: notificationMessages})
+          break;
+        case "user_connections":
+          this.setState({counter: serverData.connections})
+          break;
+        case "user_color":
+          this.setState({color: serverData.color})
+          break;
+        default:
+          throw new Error("Unknown event type " + serverData);
       }
     }
   }
@@ -52,7 +63,7 @@ class App extends Component {
   render() {
     return (
       <div>
-        <MessageList messageList = { this.state.messages } counter = { this.state.counter } />
+        <MessageList messageList = { this.state.messages } counter = { this.state.counter } color = { this.state.color } />
         <ChatBar currentUser = { this.state.currentUser } sendHandler = { this.sendHandler } sendNameHandler = { this.sendNameHandler }  />
       </div>
     );
